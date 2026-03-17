@@ -38,7 +38,7 @@ async def rep(ctx, user: discord.Member = None):
     # zmiana nazwy kanału
     channel = ctx.guild.get_channel(CHANNEL_ID)
     if channel:
-        await channel.edit(name=f"rep: {data['count']}")
+        await channel.edit(name=f"✅𝐋𝐄𝐆𝐈𝐓𝐊𝐈-{data['count']}")
 
     await ctx.send(f"Rep dodany! Aktualny licznik: **{data['count']}**")
 
