@@ -27,6 +27,8 @@ bot = commands.Bot(command_prefix="+", intents=intents)
 async def on_ready():
     print(f"Bot zalogowany jako {bot.user}")
 
+# COOLDOWN: 1 użycie co 10 sekund na kanał
+@commands.cooldown(1, 10, commands.BucketType.channel)
 @bot.command()
 async def rep(ctx, user: discord.Member = None):
     data["count"] += 1
@@ -41,5 +43,11 @@ async def rep(ctx, user: discord.Member = None):
         await channel.edit(name=f"✅𝐋𝐄𝐆𝐈𝐓𝐊𝐈-{data['count']}")
 
     await ctx.send(f"Rep dodany! Aktualny licznik: **{data['count']}**")
+
+# Obsługa błędu cooldown (spam)
+@rep.error
+async def rep_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        await ctx.send(f"⏳ Zwolnij, szefie! Możesz użyć komendy ponownie za **{round(error.retry_after)}s**.")
 
 bot.run(TOKEN)
